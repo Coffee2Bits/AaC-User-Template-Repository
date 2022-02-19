@@ -1,2 +1,23 @@
+import:
+  - ./message.yaml
 model:
-  name: Example Model
+  name: EchoExample
+  description: This is a message mirroring model (echo).
+  behavior:
+    - name: Echo
+      type: request-response
+      description: Return a response with identical content to the request.
+      input:
+        - name: inbound
+          type: Message
+      output:
+        - name: outbound
+          type: Message
+      acceptance:
+        - scenario: onReceive
+          given:
+           - The EchoExample service is running.
+          when:
+            - The user sends a message to EchoExample.
+          then:
+            - The user receives the same message from EchoExample.

@@ -1,0 +1,29 @@
+# This workflow is only intended to run when a pull-request is merged into the main branch
+name: Main branch Workflow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  validate_aac_model:
+    name: Validate AaC Model
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install the AaC Package
+      run: |
+        python3.9 -m pip install --upgrade pip
+        pip install aac
+
+    - name: Validate Model
+      run: |
+        find src/model/ -name *.yaml -print0 | xargs -0 -n1 aac validate
