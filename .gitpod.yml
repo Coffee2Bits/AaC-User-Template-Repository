@@ -1,18 +1,12 @@
 tasks:
-  - name: VSCode Extension Environment
-    init: |
-      cd vscode_extension/
-      yarn install
-    command: cd vscode_extension/; yarn compile
+  - name: PlantUML Docker Server
+    init: docker pull plantuml/plantuml-server:jetty
+    command: docker run -d -p 8080:8080 plantuml/plantuml-server:jetty
 
-  - name: Python Virtual Environment
+  - name: Install AaC Python Package
     init: |
-      cd python/
-      python3.9 -m venv venv --system-site-packages
       python3.9 -m pip install --upgrade pip
-      source venv/bin/activate
-      pip install -e .[all]
-    command: cd python/; source venv/bin/activate # Always launch a console with our virtual env
+    command: pip install aac --user
 
 vscode:
   extensions:
