@@ -1,0 +1,8 @@
+# IDE/Editor files
+.vscode/
+.project
+.settings/
+.dir-locals.el
+
+#Occasionally created gitpod .tmp files
+*.tmp
