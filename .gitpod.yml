@@ -15,8 +15,8 @@ vscode:
     - editorconfig.editorconfig
     - ms-python.python
     - samuelcolvin.jinjahtml
-    - vscode.typescript
     - jebbs.plantuml
+    - zxh404.vscode-proto3
 
 image:
   file: .gitpod.Dockerfile
