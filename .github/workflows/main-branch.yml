@@ -27,3 +27,37 @@ jobs:
     - name: Validate Model
       run: |
         find src/model/ -name *.yaml -print0 | xargs -0 -n1 aac validate
+
+  generate_example_model_artifacts:
+    name: Generate Example Model Artifacts
+    runs-on: ubuntu-latest
+    needs: validate_aac_model
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install the AaC Package
+        run: |
+          python3.9 -m pip install --upgrade pip
+          pip install aac
+      
+      - name: Generate Design Document
+        run: aac gen-design-doc src/model/example_model/example_model.yaml artifacts/docs
+
+      - name: Generate Protobuf Messages
+        run: aac gen-protobuf src/model/example_model/example_model.yaml artifacts/proto
+
+      - name: Generate PlantUML Diagrams
+        run: aac puml-component src/model/example_model/example_model.yaml --output_directory artifacts/puml
+
+      - name: Upload Generated Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: example_model_artifacts
+          path: artifacts/
